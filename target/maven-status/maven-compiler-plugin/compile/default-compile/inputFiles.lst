@@ -4,5 +4,7 @@ C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main
 C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\enums\PrioridadTurno.java
 C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\enums\TipoDocumento.java
 C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\model\Cliente.java
+C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\repository\TurnoRepository.java
 C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\TurnosApplication.java
 C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\enums\EstadoTurno.java
+C:\Users\ateho\Documents\programacion-avanzada-2\Sistema-de-Turnos-LPA2\src\main\java\com\turnos\service\TurnoService.java
