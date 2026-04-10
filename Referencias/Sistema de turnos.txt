@@ -1,0 +1,68 @@
+Euconfio:
+    - Es un microservicio encargado de almacenas y administrar LOGs
+    -   Almacenar logs en BD
+    -   Tener un archivo txt, donde se almacen logs
+    -   Tener un endpoint de metodo Post, por el cual recibe los logs de diferentes microservicios.
+
+Administrador de perfiles Asesor:
+    - Informacion Basica asesor:
+        - Nombre
+        - ID (cedula)
+        - cargo o rol
+        - especialidad [lista de especialidades]
+        - area [areas que pertenece]
+        - disponibilidad horaria
+    - Crear
+    - Editar
+    - Eliminar (historica, desactivacion)
+    - registro (usuario y contraseña ---- BD debe ser ofuscada)
+    - sistema de recuperacion de clave.
+    - entregar informacion del asesor
+
+Monitoreamiento:
+    - tiempos de espera.
+    - turnos atendidos dia, mes, año, total.
+    - picos o jornadas pico de turnos.
+    - top asesor.
+    - areas atendidas, especialidad.
+    - export de informacion.
+    - indica las areas que existen y puede exportarlas
+    - turnos cancelados, y turnos atendidos
+
+Frontend:
+    - vistas de todo :D
+
+Sistema de turnos:
+    - gestion de turnos:
+        - estado del turno.
+        - fecha de creacion de turno (con horas y minutos)
+        - fecha de atencion del turno (atendido o cancelado)
+        - cambio de asignacion de asesor
+        - creacion de turnos.
+        - priorizacion de turnos.
+            - clientes con diferentes situaciones.
+        - asignacion a asesor (aleatorio).
+        - sistema que permita saber si el asesor esta libre o no.
+    - Debe conocer el cliente con documento y tipo de documento
+
+-----------------------------------------------------
+--- Proceso de pedido de turno ---
+- el usuario entra y se registra con documento y tipo de documento
+- elige la prioridad (2 prioridad o regular)
+- area <----- data por Monitoreamiento
+- se asigna el turno: <----- el front hace esta peticion a el sistema de gestion de turnos
+    - buscar un asesor disponible. <-- sistemas de gestion de turnos
+    - generar un numero de turno. <-- sistemas de gestion de turnos
+    - asignar a ese asesor el cliente, en el turno generado <-- sistemas de gestion de turnos
+    - creacion de turno
+- el asesor atiende el llamado.
+    - el asesor atiende.
+        - el turno cambia de estado y se asigna como atendido
+    - el asesor cancela.
+        - el turno cambia cancelado.
+
+--- Atencion del asesor ---
+- debe visualizar un dashboard, de que turnos asignados (cola) < Sistema de gestion de turnos>
+- el asesor puede atender o cancelar turnos.  <con el frontend da esa instruccion al sistema de gestion de turnos>
+- los turnos atendidos no aparecen en el tablero.
+----------------------------------------------------------
