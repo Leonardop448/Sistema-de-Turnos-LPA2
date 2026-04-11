@@ -1,0 +1,197 @@
+{
+  "info": {
+    "name": "Sistema de Turnos API",
+    "_postman_id": "sistema-turnos-v1",
+    "description": "Colección completa para probar el microservicio de gestión de turnos. Base URL: http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "turnoId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Crear Turno (Normal)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"1234567890\",\n    \"nombre\": \"Juan Pérez\"\n  },\n  \"asesor\": {\n    \"asesorId\": \"asesor-001\",\n    \"nombre\": \"Carlos Ramírez\",\n    \"disponible\": true\n  },\n  \"area\": {\n    \"areaId\": \"area-001\",\n    \"nombre\": \"Créditos\"\n  },\n  \"prioridad\": \"NORMAL\",\n  \"motivoPrioridad\": null\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201 || pm.response.code === 200) {",
+              "  var json = pm.response.json();",
+              "  if (json.id) { pm.collectionVariables.set('turnoId', json.id); }",
+              "  pm.test('Turno creado correctamente', () => pm.response.to.have.status(pm.response.code));",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Crear Turno (Preferencial)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"9876543210\",\n    \"nombre\": \"María González\"\n  },\n  \"asesor\": {\n    \"asesorId\": \"asesor-002\",\n    \"nombre\": \"Ana Torres\",\n    \"disponible\": true\n  },\n  \"area\": {\n    \"areaId\": \"area-001\",\n    \"nombre\": \"Créditos\"\n  },\n  \"prioridad\": \"PREFERENCIAL\",\n  \"motivoPrioridad\": \"adulto mayor\"\n}"
+        }
+      }
+    },
+    {
+      "name": "3. Crear Turno (TI - Menor de edad)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"TI\",\n    \"numeroDocumento\": \"1122334455\",\n    \"nombre\": \"Luis Castro\"\n  },\n  \"asesor\": {\n    \"asesorId\": \"asesor-001\",\n    \"nombre\": \"Carlos Ramírez\",\n    \"disponible\": true\n  },\n  \"area\": {\n    \"areaId\": \"area-002\",\n    \"nombre\": \"Cuentas\"\n  },\n  \"prioridad\": \"PREFERENCIAL\",\n  \"motivoPrioridad\": \"discapacidad\"\n}"
+        }
+      }
+    },
+    {
+      "name": "4. Obtener todos los turnos",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] }
+      }
+    },
+    {
+      "name": "5. Obtener turno por ID",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}"] }
+      }
+    },
+    {
+      "name": "6. Obtener turnos por estado - EN_ESPERA",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/estado/EN_ESPERA", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","EN_ESPERA"] }
+      }
+    },
+    {
+      "name": "7. Obtener turnos por estado - EN_ATENCION",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/estado/EN_ATENCION", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","EN_ATENCION"] }
+      }
+    },
+    {
+      "name": "8. Obtener turnos por estado - ATENDIDO",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/estado/ATENDIDO", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","ATENDIDO"] }
+      }
+    },
+    {
+      "name": "9. Obtener turnos por estado - CANCELADO",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/estado/CANCELADO", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","CANCELADO"] }
+      }
+    },
+    {
+      "name": "10. Obtener turnos por cliente (número de documento)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/cliente/1234567890", "host": ["{{baseUrl}}"], "path": ["api","turnos","cliente","1234567890"] }
+      }
+    },
+    {
+      "name": "11. Obtener cola del asesor (dashboard asesor)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/turnos/asesor/asesor-001", "host": ["{{baseUrl}}"], "path": ["api","turnos","asesor","asesor-001"] }
+      }
+    },
+    {
+      "name": "12. Asignar asesor a turno",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/asignar-asesor", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","asignar-asesor"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asesorId\": \"asesor-003\",\n  \"nombre\": \"Pedro Salcedo\",\n  \"disponible\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "13. Atender turno",
+      "request": {
+        "method": "PUT",
+        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/atender", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","atender"] }
+      }
+    },
+    {
+      "name": "14. Cancelar turno",
+      "request": {
+        "method": "PUT",
+        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/cancelar", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","cancelar"] }
+      }
+    },
+    {
+      "name": "15. Cambiar asesor del turno",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/cambiar-asesor", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","cambiar-asesor"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asesorId\": \"asesor-004\",\n  \"nombre\": \"Laura Medina\",\n  \"disponible\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "--- ERRORES (casos borde) ---",
+      "item": [
+        {
+          "name": "Error - ID de turno inexistente",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/turnos/id-que-no-existe", "host": ["{{baseUrl}}"], "path": ["api","turnos","id-que-no-existe"] }
+          }
+        },
+        {
+          "name": "Error - Crear turno sin campos requeridos",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prioridad\": \"NORMAL\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Error - Estado inválido en filtro",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/turnos/estado/INVENTADO", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","INVENTADO"] }
+          }
+        }
+      ]
+    }
+  ]
+}
