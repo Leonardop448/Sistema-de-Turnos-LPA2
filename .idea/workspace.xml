@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf5be44d-2ff9-42b1-be85-eba4017519b9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/config/CorsConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/config/CorsConfig$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/config/CorsConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/controller/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/controller/CrearTurnoRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/controller/CrearTurnoRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/controller/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/controller/GlobalExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/controller/TurnoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/controller/TurnoController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/enums/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/AreaRef$AreaRefBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/AreaRef$AreaRefBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/AreaRef.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/AreaRef.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/AsesorRef$AsesorRefBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/AsesorRef$AsesorRefBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/AsesorRef.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/AsesorRef.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/Cliente$ClienteBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/Cliente$ClienteBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/Cliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/Cliente.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/Turno$TurnoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/Turno$TurnoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/model/Turno.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/model/Turno.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/repository/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/service/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/turnos/service/TurnoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/turnos/service/TurnoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,18 +16,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "atehojuan"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;atehojuan&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Leonardop448/Sistema-de-Turnos-LPA2.git",
-    "accountId": "2c14162e-0ad7-487e-b507-dcb8ab4cb0c6"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Leonardop448/Sistema-de-Turnos-LPA2.git&quot;,
+    &quot;accountId&quot;: &quot;2c14162e-0ad7-487e-b507-dcb8ab4cb0c6&quot;
   }
-}]]></component>
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="nik6SRm2" />
   </component>
@@ -120,7 +101,8 @@
       <option name="presentableId" value="Default" />
       <updated>1775923662998</updated>
       <workItem from="1775923664702" duration="1378000" />
-      <workItem from="1775925358400" duration="7040000" />
+      <workItem from="1775925358400" duration="7271000" />
+      <workItem from="1775933862513" duration="143000" />
     </task>
     <servers />
   </component>

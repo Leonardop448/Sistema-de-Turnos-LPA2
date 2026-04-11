@@ -1,0 +1,5 @@
+# Configuración de Visual Studio Code
+.vscode/
+
+# Configuración de JetBrains (IntelliJ, PyCharm, etc.)
+.idea/
