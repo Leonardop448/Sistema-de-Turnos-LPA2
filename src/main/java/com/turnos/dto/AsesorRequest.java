@@ -1,15 +1,13 @@
-package com.turnos.model;
+package com.turnos.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AsesorRef {
+public class AsesorRequest {
     private String asesorId;
     private String nombre;
     private boolean disponible;

@@ -1,0 +1,2 @@
+# Paquete: repository
+# Aquí irán las interfaces que extienden MongoRepository<T, ID>

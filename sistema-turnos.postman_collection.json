@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Sistema de Turnos API",
-    "_postman_id": "sistema-turnos-v1",
-    "description": "Colección completa para probar el microservicio de gestión de turnos. Base URL: http://localhost:8080",
+    "name": "Sistema de Turnos — Pruebas",
+    "_postman_id": "sistema-turnos-pruebas-v2",
+    "description": "Colección organizada por tipo de caso: camino feliz, caso borde y casos de error.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -12,183 +12,662 @@
       "type": "string"
     },
     {
-      "key": "turnoId",
+      "key": "turnoNormalId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "turnoPreferencialId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "turnoEnAtencionId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "turnoCancelarId",
       "value": "",
       "type": "string"
     }
   ],
   "item": [
     {
-      "name": "1. Crear Turno (Normal)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"1234567890\",\n    \"nombre\": \"Juan Pérez\"\n  },\n  \"asesor\": {\n    \"asesorId\": \"asesor-001\",\n    \"nombre\": \"Carlos Ramírez\",\n    \"disponible\": true\n  },\n  \"area\": {\n    \"areaId\": \"area-001\",\n    \"nombre\": \"Créditos\"\n  },\n  \"prioridad\": \"NORMAL\",\n  \"motivoPrioridad\": null\n}"
-        }
-      },
-      "event": [
+      "name": "Camino Feliz",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "if (pm.response.code === 201 || pm.response.code === 200) {",
-              "  var json = pm.response.json();",
-              "  if (json.id) { pm.collectionVariables.set('turnoId', json.id); }",
-              "  pm.test('Turno creado correctamente', () => pm.response.to.have.status(pm.response.code));",
-              "}"
-            ]
+          "name": "1. Crear turno NORMAL",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Estado 200 o 201', () => {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "pm.test('Estado del turno es EN_ESPERA', () => {",
+                  "  pm.expect(pm.response.json().estado).to.eql('EN_ESPERA');",
+                  "});",
+                  "pm.test('Asesor es null al crear', () => {",
+                  "  pm.expect(pm.response.json().asesor).to.be.null;",
+                  "});",
+                  "pm.test('Tiene numeroTurno', () => {",
+                  "  pm.expect(pm.response.json().numeroTurno).to.exist;",
+                  "});",
+                  "pm.test('Tiene fechaCreacion', () => {",
+                  "  pm.expect(pm.response.json().fechaCreacion).to.exist;",
+                  "});",
+                  "var id = pm.response.json().id;",
+                  "pm.collectionVariables.set('turnoNormalId', id);",
+                  "pm.collectionVariables.set('turnoCancelarId', id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"1234567890\",\n    \"nombre\": \"Juan Pérez\"\n  },\n  \"area\": {\n    \"areaId\": \"area-001\",\n    \"nombre\": \"Créditos\"\n  },\n  \"prioridad\": \"NORMAL\",\n  \"motivoPrioridad\": null\n}"
+            }
+          }
+        },
+        {
+          "name": "2. Crear turno PREFERENCIAL",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Estado 200 o 201', () => {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "pm.test('Estado del turno es EN_ESPERA', () => {",
+                  "  pm.expect(pm.response.json().estado).to.eql('EN_ESPERA');",
+                  "});",
+                  "pm.test('Prioridad es PREFERENCIAL', () => {",
+                  "  pm.expect(pm.response.json().prioridad).to.eql('PREFERENCIAL');",
+                  "});",
+                  "pm.test('Tiene motivoPrioridad', () => {",
+                  "  pm.expect(pm.response.json().motivoPrioridad).to.exist;",
+                  "});",
+                  "pm.collectionVariables.set('turnoPreferencialId', pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"9876543210\",\n    \"nombre\": \"María González\"\n  },\n  \"area\": {\n    \"areaId\": \"area-001\",\n    \"nombre\": \"Créditos\"\n  },\n  \"prioridad\": \"PREFERENCIAL\",\n  \"motivoPrioridad\": \"adulto mayor\"\n}"
+            }
+          }
+        },
+        {
+          "name": "3. Asesor pide siguiente turno",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Estado cambia a EN_ATENCION', () => {",
+                  "  pm.expect(pm.response.json().estado).to.eql('EN_ATENCION');",
+                  "});",
+                  "pm.test('Asesor fue asignado', () => {",
+                  "  pm.expect(pm.response.json().asesor).to.not.be.null;",
+                  "});",
+                  "pm.test('Asesor tiene el ID correcto', () => {",
+                  "  pm.expect(pm.response.json().asesor.asesorId).to.eql('asesor-001');",
+                  "});",
+                  "pm.collectionVariables.set('turnoEnAtencionId', pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/siguiente-turno",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "siguiente-turno"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"asesorId\": \"asesor-001\",\n  \"nombre\": \"Carlos Ramírez\"\n}"
+            }
+          }
+        },
+        {
+          "name": "4. Atender turno",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Estado cambia a ATENDIDO', () => {",
+                  "  pm.expect(pm.response.json().estado).to.eql('ATENDIDO');",
+                  "});",
+                  "pm.test('Tiene fechaAtencion registrada', () => {",
+                  "  pm.expect(pm.response.json().fechaAtencion).to.exist;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/{{turnoEnAtencionId}}/atender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "{{turnoEnAtencionId}}",
+                "atender"
+              ]
+            }
+          }
+        },
+        {
+          "name": "5. Cancelar turno",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Estado cambia a CANCELADO', () => {",
+                  "  pm.expect(pm.response.json().estado).to.eql('CANCELADO');",
+                  "});",
+                  "pm.test('Tiene fechaAtencion registrada', () => {",
+                  "  pm.expect(pm.response.json().fechaAtencion).to.exist;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/{{turnoCancelarId}}/cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "{{turnoCancelarId}}",
+                "cancelar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "6. Obtener todos los turnos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Respuesta es un arreglo', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "7. Obtener turno por ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El ID coincide', () => {",
+                  "  pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('turnoNormalId'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/{{turnoNormalId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "{{turnoNormalId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "8. Filtrar por estado EN_ESPERA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Todos los turnos son EN_ESPERA', () => {",
+                  "  pm.response.json().forEach(t => {",
+                  "    pm.expect(t.estado).to.eql('EN_ESPERA');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/estado/EN_ESPERA",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "estado",
+                "EN_ESPERA"
+              ]
+            }
+          }
+        },
+        {
+          "name": "9. Buscar turnos por cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Todos los turnos pertenecen al cliente', () => {",
+                  "  pm.response.json().forEach(t => {",
+                  "    pm.expect(t.cliente.numeroDocumento).to.eql('1234567890');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/cliente/1234567890",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "cliente",
+                "1234567890"
+              ]
+            }
+          }
+        },
+        {
+          "name": "10. Cola del asesor (dashboard)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Respuesta es un arreglo', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/asesor/asesor-001",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "asesor",
+                "asesor-001"
+              ]
+            }
           }
         }
       ]
     },
     {
-      "name": "2. Crear Turno (Preferencial)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"9876543210\",\n    \"nombre\": \"María González\"\n  },\n  \"asesor\": {\n    \"asesorId\": \"asesor-002\",\n    \"nombre\": \"Ana Torres\",\n    \"disponible\": true\n  },\n  \"area\": {\n    \"areaId\": \"area-001\",\n    \"nombre\": \"Créditos\"\n  },\n  \"prioridad\": \"PREFERENCIAL\",\n  \"motivoPrioridad\": \"adulto mayor\"\n}"
-        }
-      }
-    },
-    {
-      "name": "3. Crear Turno (TI - Menor de edad)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"cliente\": {\n    \"tipoDocumento\": \"TI\",\n    \"numeroDocumento\": \"1122334455\",\n    \"nombre\": \"Luis Castro\"\n  },\n  \"asesor\": {\n    \"asesorId\": \"asesor-001\",\n    \"nombre\": \"Carlos Ramírez\",\n    \"disponible\": true\n  },\n  \"area\": {\n    \"areaId\": \"area-002\",\n    \"nombre\": \"Cuentas\"\n  },\n  \"prioridad\": \"PREFERENCIAL\",\n  \"motivoPrioridad\": \"discapacidad\"\n}"
-        }
-      }
-    },
-    {
-      "name": "4. Obtener todos los turnos",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] }
-      }
-    },
-    {
-      "name": "5. Obtener turno por ID",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}"] }
-      }
-    },
-    {
-      "name": "6. Obtener turnos por estado - EN_ESPERA",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/estado/EN_ESPERA", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","EN_ESPERA"] }
-      }
-    },
-    {
-      "name": "7. Obtener turnos por estado - EN_ATENCION",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/estado/EN_ATENCION", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","EN_ATENCION"] }
-      }
-    },
-    {
-      "name": "8. Obtener turnos por estado - ATENDIDO",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/estado/ATENDIDO", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","ATENDIDO"] }
-      }
-    },
-    {
-      "name": "9. Obtener turnos por estado - CANCELADO",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/estado/CANCELADO", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","CANCELADO"] }
-      }
-    },
-    {
-      "name": "10. Obtener turnos por cliente (número de documento)",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/cliente/1234567890", "host": ["{{baseUrl}}"], "path": ["api","turnos","cliente","1234567890"] }
-      }
-    },
-    {
-      "name": "11. Obtener cola del asesor (dashboard asesor)",
-      "request": {
-        "method": "GET",
-        "url": { "raw": "{{baseUrl}}/api/turnos/asesor/asesor-001", "host": ["{{baseUrl}}"], "path": ["api","turnos","asesor","asesor-001"] }
-      }
-    },
-    {
-      "name": "12. Asignar asesor a turno",
-      "request": {
-        "method": "PUT",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/asignar-asesor", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","asignar-asesor"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"asesorId\": \"asesor-003\",\n  \"nombre\": \"Pedro Salcedo\",\n  \"disponible\": true\n}"
-        }
-      }
-    },
-    {
-      "name": "13. Atender turno",
-      "request": {
-        "method": "PUT",
-        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/atender", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","atender"] }
-      }
-    },
-    {
-      "name": "14. Cancelar turno",
-      "request": {
-        "method": "PUT",
-        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/cancelar", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","cancelar"] }
-      }
-    },
-    {
-      "name": "15. Cambiar asesor del turno",
-      "request": {
-        "method": "PUT",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": { "raw": "{{baseUrl}}/api/turnos/{{turnoId}}/cambiar-asesor", "host": ["{{baseUrl}}"], "path": ["api","turnos","{{turnoId}}","cambiar-asesor"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"asesorId\": \"asesor-004\",\n  \"nombre\": \"Laura Medina\",\n  \"disponible\": true\n}"
-        }
-      }
-    },
-    {
-      "name": "--- ERRORES (casos borde) ---",
+      "name": "Caso Borde",
       "item": [
         {
-          "name": "Error - ID de turno inexistente",
+          "name": "Preferencial sale antes que Normal (verificar orden)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Primero crea el turno NORMAL",
+                  "pm.sendRequest({",
+                  "  url: pm.collectionVariables.get('baseUrl') + '/api/turnos',",
+                  "  method: 'POST',",
+                  "  header: { 'Content-Type': 'application/json' },",
+                  "  body: {",
+                  "    mode: 'raw',",
+                  "    raw: JSON.stringify({",
+                  "      cliente: { tipoDocumento: 'CC', numeroDocumento: '1111', nombre: 'Carlos Normal' },",
+                  "      area: { areaId: 'area-001', nombre: 'Creditos' },",
+                  "      prioridad: 'NORMAL'",
+                  "    })",
+                  "  }",
+                  "}, (err, res) => {",
+                  "  // Luego crea el PREFERENCIAL",
+                  "  pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('baseUrl') + '/api/turnos',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({",
+                  "        cliente: { tipoDocumento: 'CC', numeroDocumento: '2222', nombre: 'Maria Preferencial' },",
+                  "        area: { areaId: 'area-001', nombre: 'Creditos' },",
+                  "        prioridad: 'PREFERENCIAL',",
+                  "        motivoPrioridad: 'embarazo'",
+                  "      })",
+                  "    }",
+                  "  }, (err2, res2) => {",
+                  "    pm.collectionVariables.set('preferencialDocumento', '2222');",
+                  "  });",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Respuesta 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El turno asignado es PREFERENCIAL aunque llegó después', () => {",
+                  "  pm.expect(pm.response.json().prioridad).to.eql('PREFERENCIAL');",
+                  "});",
+                  "pm.test('Estado es EN_ATENCION', () => {",
+                  "  pm.expect(pm.response.json().estado).to.eql('EN_ATENCION');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
-            "method": "GET",
-            "url": { "raw": "{{baseUrl}}/api/turnos/id-que-no-existe", "host": ["{{baseUrl}}"], "path": ["api","turnos","id-que-no-existe"] }
-          }
-        },
-        {
-          "name": "Error - Crear turno sin campos requeridos",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{baseUrl}}/api/turnos", "host": ["{{baseUrl}}"], "path": ["api","turnos"] },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/siguiente-turno",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "siguiente-turno"
+              ]
+            },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"prioridad\": \"NORMAL\"\n}"
+              "raw": "{\n  \"asesorId\": \"asesor-002\",\n  \"nombre\": \"Ana Torres\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Casos de Error",
+      "item": [
+        {
+          "name": "Error — Cola vacía al pedir siguiente turno",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Debe responder 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Tiene mensaje de error', () => {",
+                  "  pm.expect(pm.response.json()).to.have.property('mensaje');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/siguiente-turno",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "siguiente-turno"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"asesorId\": \"asesor-001\",\n  \"nombre\": \"Carlos Ramírez\"\n}"
             }
           }
         },
         {
-          "name": "Error - Estado inválido en filtro",
+          "name": "Error — Atender turno que está EN_ESPERA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Debe responder 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Tiene mensaje de error', () => {",
+                  "  pm.expect(pm.response.json()).to.have.property('mensaje');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/{{turnoNormalId}}/atender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "{{turnoNormalId}}",
+                "atender"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Error — Cancelar turno ya ATENDIDO",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Debe responder 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Tiene mensaje de error', () => {",
+                  "  pm.expect(pm.response.json()).to.have.property('mensaje');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/{{turnoEnAtencionId}}/cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "{{turnoEnAtencionId}}",
+                "cancelar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Error — ID de turno inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Debe responder 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Tiene mensaje de error', () => {",
+                  "  pm.expect(pm.response.json()).to.have.property('mensaje');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/api/turnos/estado/INVENTADO", "host": ["{{baseUrl}}"], "path": ["api","turnos","estado","INVENTADO"] }
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/id-que-no-existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "id-que-no-existe"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Error — Crear turno sin campos requeridos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('No debe responder 200', () => {",
+                  "  pm.expect(pm.response.code).to.not.eql(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prioridad\": \"NORMAL\"\n}"
+            }
           }
         }
       ]
