@@ -3,3 +3,33 @@
 
 # Configuración de JetBrains (IntelliJ, PyCharm, etc.)
 .idea/
+
+# Archivos compilados de Java
+*.class
+
+# Directorios de salida comunes
+/target/
+/bin/
+/build/
+/out/
+
+# Archivos de proyecto de Eclipse (opcional, si usas Eclipse)
+.project
+.classpath
+.settings/
+
+# Archivos de NetBeans
+nb-configuration.xml
+/nbproject/
+
+# Archivos de log
+*.log
+
+# Dependencias locales (si usas Maven manual)
+.mvn/
+mvnw
+mvnw.cmd
+
+# Archivos de respaldo
+*.swp
+*.bak
