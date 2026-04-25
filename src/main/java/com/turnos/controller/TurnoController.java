@@ -94,4 +94,9 @@ public class TurnoController {
     public ResponseEntity<List<Turno>> obtenerPorAsesor(@PathVariable String asesorId) {
         return ResponseEntity.ok(turnoService.obtenerTurnosPorAsesor(asesorId));
     }
+
+    @GetMapping("/area/{areaId}")
+    public ResponseEntity<List<Turno>> obtenerPorArea(@PathVariable String areaId){
+        return ResponseEntity.ok(turnoService.obtenerTurnosPorArea(areaId));
+    }
 }

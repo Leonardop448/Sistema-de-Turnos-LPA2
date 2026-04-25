@@ -139,6 +139,10 @@ public class TurnoService {
                 .collect(Collectors.toList());
     }
 
+    public List<Turno> obtenerTurnosPorArea(String areaId){
+        return turnoRepository.findByAreaAreaId(areaId);
+    }
+
     public Turno obtenerTurnoPorId(String id) {
         return buscarTurnoPorId(id);
     }
