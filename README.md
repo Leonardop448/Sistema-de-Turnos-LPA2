@@ -41,6 +41,7 @@ Es un microservicio encargado de gestionar el ciclo de vida de los turnos de ate
 **AreaRef**
 - `areaId` (String): ID del área en el sistema externo.
 - `nombre` (String): Nombre del área.
+> Se puede filtrar turnos por área usando el endpoint GET /api/turnos/area/{areaId}
 
 **AsesorRef**
 - `asesorId` (String): ID del asesor en el sistema externo.
@@ -92,6 +93,7 @@ Los DTOs son clases que representan los datos que llegan desde el frontend. Se u
 | GET | `/api/turnos/estado/{estado}` | Filtra turnos por estado | No aplica | `[{...}, {...}]` |
 | GET | `/api/turnos/cliente/{numeroDocumento}` | Busca todos los turnos que ha pedido un cliente | No aplica | `[{...}, {...}]` |
 | GET | `/api/turnos/asesor/{asesorId}` | Retorna turnos en espera o en atención de un asesor | No aplica | `[{...}, {...}]` |
+| GET | `/api/turnos/area/{areaId}` | Busca todos los turnos de un área | No aplica | `[{...}, {...}]` |
 
 ## Flujo principal
 1. El cliente pide un turno ingresando sus datos, a qué área va y qué prioridad tiene. El turno entra al sistema y queda en estado `EN_ESPERA`.
