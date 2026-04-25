@@ -13,6 +13,7 @@ Es un microservicio encargado de gestionar el ciclo de vida de los turnos de ate
 ## Estructura del proyecto
 - **config**: Contiene configuraciones globales del sistema, como la política de CORS.
 - **controller**: Define los endpoints de la API REST y maneja las respuestas y errores globales.
+- **dto**: Contiene las clases que representan los datos de entrada que recibe la API desde el frontend.
 - **service**: Contiene la lógica de negocio, reglas de asignación y manejo de estados.
 - **model**: Define las estructuras de datos y entidades que se guardan en la base de datos.
 - **repository**: Se encarga de la comunicación directa con MongoDB.
@@ -55,15 +56,26 @@ Valores: `PREFERENCIAL`, `NORMAL`
 **TipoDocumento (Enum)**
 Valores: `CC`, `TI`, `CE`, `PASAPORTE`
 
-**CrearTurnoRequest (DTO)**
+## DTOs (Data Transfer Objects)
+
+Los DTOs son clases que representan los datos que llegan desde el frontend. Se usan para separar lo que recibe la API de lo que se guarda en la base de datos.
+
+**CrearTurnoRequest**
 - `cliente` (Cliente): Información del cliente.
 - `area` (AreaRef): Área donde se pide el turno.
 - `prioridad` (PrioridadTurno): Prioridad solicitada.
-- `motivoPrioridad` (String): Razón opcional.
+- `motivoPrioridad` (String): Razón opcional, solo aplica si la prioridad es PREFERENCIAL.
 
-**SiguienteTurnoRequest (DTO)**
-- `asesorId` (String): ID del asesor.
+**SiguienteTurnoRequest**
+- `asesorId` (String): ID del asesor que pide el siguiente turno.
 - `nombre` (String): Nombre del asesor.
+
+**AsesorRequest**
+- `asesorId` (String): ID del asesor en el sistema externo.
+- `nombre` (String): Nombre del asesor.
+- `disponible` (boolean): Indica si el asesor está activo.
+
+> `AsesorRequest` se usa en los endpoints de asignar y cambiar asesor. Internamente el service lo convierte a `AsesorRef` antes de guardarlo en la base de datos.
 
 ## Endpoints
 
